@@ -1,9 +1,6 @@
 <div align="center">
   <h1>Quera Readme Generator</h1>
   <br />
-  <a href="#getting-started"><strong>Getting Started »</strong></a>
-  <br />
-  <br />
   <a href="https://github.com/HamidMolareza/QueraReadmeGenerator/issues/new?assignees=&labels=bug&template=BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
   ·
   <a href="https://github.com/HamidMolareza/QueraReadmeGenerator/issues/new?assignees=&labels=enhancement&template=FEATURE_REQUEST.md&title=feat%3A+">Request a Feature</a>
