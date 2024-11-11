@@ -79,10 +79,7 @@ Reach out to the maintainer at one of the following places:
 ## Contributing
 
 First off, thanks for taking the time to contribute! Contributions are what make the free/open-source community such an
-amazing place to learn, inspire, and create. Any contributions you make will benefit everybody else and are **greatly
-appreciated**.
-
-Please read [our contribution guidelines](docs/CONTRIBUTING.md), and thank you for being involved!
+amazing place to learn, inspire, and create. Any contributions you make will benefit everybody else and are **greatly appreciated**.
 
 ## Authors & contributors
 
