@@ -17,6 +17,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Build Docker images with Docker Compose
         run: |
-          docker build --file Dockerfile src
+          cd src
+          docker compose build
