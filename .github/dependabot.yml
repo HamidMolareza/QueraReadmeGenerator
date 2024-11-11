@@ -15,12 +15,12 @@ updates:
     schedule:
       interval: "weekly"
     # Update will target the `main` branch
-    target-branch: "main"
+    target-branch: "dev"
     # Limit the number of open pull requests for updates to 10
     open-pull-requests-limit: 10
   
   # Enable version updates for npm packages
-  - package-ecosystem: npm
+  - package-ecosystem: nuget
     # Look for npm packages in the root directory
     directory: /
     # Check for updates once a week
@@ -41,7 +41,7 @@ updates:
         # Only update patch versions
         update-types:
           - patch
-    # Update will target the `main` branch
-    target-branch: 'main'
+    # Update will target the `dev` branch
+    target-branch: 'dev'
     # Limit the number of open pull requests for updates to 10
     open-pull-requests-limit: 10

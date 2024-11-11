@@ -16,6 +16,7 @@ on:
   pull_request:
     branches:
       - main
+      - dev
   schedule:
     - cron: '40 14 * * 6' #this workflow will run at 14:40 UTC every Saturday
   # Allows you to run this workflow manually from the Actions tab
@@ -35,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'TypeScript' ]
+        language: [ 'csharp' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
 
