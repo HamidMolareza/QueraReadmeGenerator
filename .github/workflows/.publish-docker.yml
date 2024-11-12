@@ -75,9 +75,9 @@ jobs:
           context: ${{ inputs.DOCKER_CONTEXT_PATH }}
           push: true
           tags: |
-            docker.io/${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:${{ inputs.MAJOR }}
-            docker.io/${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:${{ inputs.MAJOR }}.${{ inputs.MINOR }}
-            docker.io/${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:${{ inputs.MAJOR }}.${{ inputs.MINOR }}.${{ inputs.PATCH }}
+            docker.io/${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:v${{ inputs.MAJOR }}
+            docker.io/${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:v${{ inputs.MAJOR }}.${{ inputs.MINOR }}
+            docker.io/${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:v${{ inputs.MAJOR }}.${{ inputs.MINOR }}.${{ inputs.PATCH }}
             docker.io/${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:latest
           labels: |
             maintainer=${{ inputs.REPO_OWNER }}
