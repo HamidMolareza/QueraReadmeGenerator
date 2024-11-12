@@ -1,56 +1,87 @@
 name: Publish Docker image
 
 on:
-  release:
-    types: [ published ]
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      MAJOR_VERSION:
+        description: 'Major version'
+        default: ''
+        required: true
+      MINOR_VERSION:
+        description: 'Minor version'
+        default: ''
+        required: true
+      PATCH_VERSION:
+        description: 'Patch version'
+        default: ''
+        required: true
+
+permissions:
+  packages: write
+  contents: read
+  attestations: write
+  id-token: write
 
 jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
+  get-data:
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-      attestations: write
-      id-token: write
-      
+
+    # Expose step outputs as job outputs
+    outputs:
+      major: ${{ steps.params.outputs.MAJOR_VERSION }}
+      minor: ${{ steps.params.outputs.MINOR_VERSION }}
+      patch: ${{ steps.params.outputs.PATCH_VERSION }}
+
     steps:
-      - name: Check out the repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Extract metadata (tags, labels) from github for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: hamidmolareza/quera-readme-generator
-          
-      - name: Print meta data
+      - name: Extract version from tag
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          echo "Tags: ${{ steps.meta.outputs.tags }}"
-          echo "Labels: ${{ steps.meta.outputs.labels }}"
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "Version: $VERSION"
 
-      - name: Build and push Docker image
-        id: push
-        uses: docker/build-push-action@v6
-        with:
-          context: ./src
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          
-      - name: Print push data
-        run: |
-          echo "digest: ${{ steps.push.outputs.digest }}"
+          MAJOR=$(echo $VERSION | cut -d'.' -f1)
+          MINOR=$(echo $VERSION | cut -d'.' -f2)
+          PATCH=$(echo $VERSION | cut -d'.' -f3)
 
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v1
+          echo "MAJOR=$MAJOR" >> $GITHUB_ENV
+          echo "MINOR=$MINOR" >> $GITHUB_ENV
+          echo "PATCH=$PATCH" >> $GITHUB_ENV
+
+      - name: Set Parameters
+        uses: payadel/inputs@v1
+        id: params
         with:
-          subject-name: hamidmolareza/quera-readme-generator
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
+          inputs: |
+            - name: BUILD_DATE
+              default: "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            - name: MAJOR_VERSION
+              default: "$MAJOR"
+            - name: MINOR_VERSION
+              default: "$MINOR"
+            - name: PATCH_VERSION
+              default: "$PATCH"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-docker:
+    needs: get-data
+    uses: HamidMolareza/QueraReadmeGenerator/.github/workflows/.publish-docker.yml@main
+    with:
+      REPO_OWNER: HamidMolareza
+      REPO_NAME: QueraReadmeGenerator
+      DOCKER_OWNER: HamidMolareza
+      IMAGE_NAME: quera-readme-generator
+      LICENSE: 'GPL-3.0'
+      major: ${{needs.get-data.outputs.major}}
+      minor: ${{needs.get-data.outputs.minor}}
+      patch: ${{needs.get-data.outputs.patch}}
+      DOCKER_CONTEXT_PATH: "./src"
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

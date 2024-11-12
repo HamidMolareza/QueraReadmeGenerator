@@ -1,0 +1,84 @@
+on:
+  workflow_call:
+    inputs:
+      REPO_OWNER:
+        required: true
+        type: string
+      REPO_NAME:
+        required: true
+        type: string
+      DOCKER_OWNER:
+        required: true
+        type: string
+      IMAGE_NAME:
+        required: true
+        type: string
+      LICENSE:
+        required: true
+        type: string
+      MAJOR:
+        required: true
+        type: string
+      MINOR:
+        required: true
+        type: string
+      PATCH:
+        required: true
+        type: string
+      DOCKER_CONTEXT_PATH:
+        required: true
+        type: string
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print Inputs
+        run: |
+          echo "REPO_OWNER: ${{ inputs.REPO_OWNER }}"
+          echo "REPO_NAME: ${{ inputs.REPO_NAME }}"
+          echo "DOCKER_OWNER: ${{ inputs.DOCKER_OWNER }}"
+          echo "IMAGE_NAME: ${{ inputs.IMAGE_NAME }}"
+          echo "LICENSE: ${{ inputs.LICENSE }}"
+          echo "MAJOR: ${{ inputs.MAJOR }}"
+          echo "MINOR: ${{ inputs.MINOR }}"
+          echo "PATCH: ${{ inputs.PATCH }}"
+          echo "DOCKER_CONTEXT_PATH: ${{ inputs.DOCKER_CONTEXT_PATH }}"
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ inputs.DOCKER_CONTEXT_PATH }}
+          push: true
+          tags: |
+            ${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:${{ inputs.MAJOR }}
+            ${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:${{ inputs.MAJOR }}.${{ inputs.MINOR }}
+            ${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:${{ inputs.MAJOR }}.${{ inputs.MINOR }}.${{ inputs.PATCH }}
+            ${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:latest
+          labels: |
+            org.opencontainers.image.licenses=${{ inputs.LICENSE }}
+            org.opencontainers.image.source=https://github.com/${{ inputs.REPO_OWNER }}/${{ inputs.REPO_NAME }}
+            org.opencontainers.image.url=https://github.com/${{ inputs.REPO_OWNER }}/${{ inputs.REPO_NAME }}
+            org.opencontainers.image.version=${{ inputs.MAJOR }}.${{ inputs.MINOR }}.${{ inputs.PATCH }}
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
