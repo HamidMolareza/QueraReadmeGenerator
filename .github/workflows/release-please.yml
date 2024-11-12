@@ -52,7 +52,7 @@ jobs:
     with:
       REPO_OWNER: HamidMolareza
       REPO_NAME: QueraReadmeGenerator
-      DOCKER_OWNER: HamidMolareza
+      DOCKER_OWNER: hamidmolareza # must lowercase
       IMAGE_NAME: quera-readme-generator
       LICENSE: 'GPL-3.0'
       major: ${{needs.release-please.outputs.major}}
