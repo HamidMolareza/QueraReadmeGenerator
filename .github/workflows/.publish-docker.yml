@@ -77,8 +77,6 @@ jobs:
             ${{ inputs.DOCKER_OWNER }}/${{ inputs.IMAGE_NAME }}:latest
           labels: |
             org.opencontainers.image.licenses=${{ inputs.LICENSE }}
-            org.opencontainers.image.source=https://github.com/${{ inputs.REPO_OWNER }}/${{ inputs.REPO_NAME }}
-            org.opencontainers.image.url=https://github.com/${{ inputs.REPO_OWNER }}/${{ inputs.REPO_NAME }}
             org.opencontainers.image.version=${{ inputs.MAJOR }}.${{ inputs.MINOR }}.${{ inputs.PATCH }}
 
       - name: Generate artifact attestation
