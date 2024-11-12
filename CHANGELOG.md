@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/HamidMolareza/QueraReadmeGenerator/compare/v1.0.0...v1.0.1) (2024-11-12)
+
+
+### Bug Fixes
+
+* add `v` before image version tags ([b479264](https://github.com/HamidMolareza/QueraReadmeGenerator/commit/b479264f443f9dcdf5ed27a7deb84b06a088845b))
+
 ## 0.1.0 (2024-11-11)
 
 
