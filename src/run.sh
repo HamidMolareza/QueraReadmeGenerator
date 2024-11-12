@@ -1,8 +1,8 @@
 #!/bin/bash
 
-docker_name="${1:-readme-generator}"
+docker_name="${1:-quera-readme-generator}"
 
 clear
 
 docker rmi "$docker_name" -f
-docker compose up --abort-on-container-exit
+docker compose up --build --pull never --abort-on-container-exit

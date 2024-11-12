@@ -1,6 +1,6 @@
 ﻿services:
   app:
-    image: hamidmolareza/quera-readme-generator:latest
+    image: quera-readme-generator:latest
     build:
       context: .
       dockerfile: Dockerfile
