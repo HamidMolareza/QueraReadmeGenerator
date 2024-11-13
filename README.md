@@ -12,11 +12,8 @@
 <br />
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/hamidmolareza/quera-readme-generator)
-![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/hamidmolareza/quera-readme-generator)
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/hamidmolareza/quera-readme-generator)
-
-![Build Status](https://github.com/HamidMolareza/QueraReadmeGenerator/actions/workflows/codeql.yaml/badge.svg?branch=main)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/HamidMolareza/QueraReadmeGenerator)
+![Docker Image Size (latest semver)](https://badgen.net/docker/size/hamidmolareza/quera-readme-generator?icon=docker&label=image%20size)
+![Docker Image Version](https://img.shields.io/docker/v/hamidmolareza/quera-readme-generator?sort=semver)
 
 ![GitHub](https://img.shields.io/github/license/HamidMolareza/QueraReadmeGenerator)
 [![Pull Requests welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/HamidMolareza/QueraReadmeGenerator/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
